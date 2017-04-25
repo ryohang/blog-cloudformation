@@ -1,0 +1,29 @@
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: Select a VPC that allows instances to access the Internet.
+    Default: vpc-569e5333
+  InternetFacingSecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Select your security group id open 80 and 443 to 0.0.0.0/0 such as sg-xxxxxx
+    Default: sg-5febe83b
+  PublicSubnets:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: Select public subnets in your VPC for internet facing
+    Default: subnet-cea5a588,subnet-4d997f3a,subnet-e47e5dcc,subnet-951575af
+  DesiredCapacity:
+    Type: Number
+    Default: '2'
+    Description: Number of instances to launch in your ECS cluster.
+  MinSize:
+    Type: Number
+    Default: '2'
+    Description: Minimum number of instances that can be launched in your ECS cluster.
+  MaxSize:
+    Type: Number
+    Default: '4'
+    Description: Maximum number of instances that can be launched in your ECS cluster.
+  ECSSpotPrice:
+    Description: Spot price for application AutoScaling Group
+    Type: Number
+    Default: '0.05'

@@ -1,0 +1,23 @@
+  AWSRegionToAMI:
+    us-east-1:
+      AMIID: ami-275ffe31
+    us-east-2:
+      AMIID: ami-62745007
+    us-west-1:
+      AMIID: ami-689bc208
+    us-west-2:
+      AMIID: ami-62d35c02
+    eu-west-1:
+      AMIID: ami-95f8d2f3
+    eu-west-2:
+      AMIID: ami-bf9481db
+    eu-central-1:
+      AMIID: ami-085e8a67
+    ap-northeast-1:
+      AMIID: ami-f63f6f91
+    ap-southeast-1:
+      AMIID: ami-b4ae1dd7
+    ap-southeast-2:
+      AMIID: ami-fbe9eb98
+    ca-central-1:
+      AMIID: ami-ee58e58a

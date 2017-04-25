@@ -1,0 +1,1 @@
+ejs-cli "*.yml" --out ../ --options ./options.json

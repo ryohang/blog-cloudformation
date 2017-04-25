@@ -1,0 +1,20 @@
+          - InstanceType: <%=instancesTypes[i]%>
+            IamInstanceProfile:
+              Arn: !GetAtt 'EC2InstanceProfile.Arn'
+            ImageId: !FindInMap [ AWSRegionToAMI, !Ref 'AWS::Region', AMIID]
+            SubnetId: !Join [ ',', !Ref 'PublicSubnets' ]
+            KeyName: !Ref 'KeyName'
+            Monitoring:
+              Enabled: 'true'
+            UserData:
+              Fn::Base64: !Sub |
+                #!/bin/bash -xe
+                echo ECS_CLUSTER=${FamilyCluster} >> /etc/ecs/ecs.config
+                yum install -y aws-cfn-bootstrap
+                /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource spotFleet --region ${AWS::Region}
+                /opt/aws/bin/cfn-hup || error_exit 'Failed to start cfn-hup'
+                /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource spotFleet --region ${AWS::Region}
+            SecurityGroups: 
+              - GroupId: !Ref 'EcsSecurityGroup'
+              - GroupId: 'sg-b0eae9d4'
+            SubnetId: !Join [ ',', !Ref 'PublicSubnets' ]

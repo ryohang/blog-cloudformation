@@ -1,0 +1,29 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+<% include ./partials/params.yml %>
+Mappings:
+<% include ./partials/ecs-ami.yml %>
+Resources:
+  apiTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    DependsOn: ECSTaskRole
+    Properties:
+      ContainerDefinitions:
+      - Name: proxy
+        Essential: true
+        Image: ContainerRepoURL/proxy:prod
+        Memory: <%= container.prod.proxy.memory %>
+      TaskRoleArn: !Ref 'ECSTaskRole'
+  spotFleet:
+    Type: AWS::EC2::SpotFleet
+    Properties:
+      SpotFleetRequestConfigData:
+        IamFleetRole: !GetAtt iamFleetRole.Arn
+        SpotPrice: !Ref 'ECSSpotPrice'
+        TargetCapacity: !Ref 'DesiredCapacity'
+        TerminateInstancesWithExpiration: false
+        AllocationStrategy: lowestPrice
+        LaunchSpecifications:
+<% for(var i in instancesTypes) {%>
+<% include ./partials/instance-launch-specification.yml %>
+<% } %>
